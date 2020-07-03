@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>students api</title>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ </head>
+<body>
+<h2>Sign up</h2>
+<form method="post" >
+    <!-- <input name="csrfmiddlewaretoken" value="UHCZvaPX3mpdQ0tE7QIWUf5HaQhWR2Nt89bC1g5mmidRgPVBh79rFO6RovxBKpur" type="hidden"> -->
+      <p>
+        <label for="id_username">Username:</label><br>
+        <input name="username" maxlength="150" autofocus="" required="" id="id_username" type="text">
+        
+          <small style="color: grey">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
+      </p>
+    
+      <p>
+        <label for="id_first_name">First name:</label><br>
+        <input name="first_name" maxlength="30" id="id_first_name" type="text">
+        
+          <small style="color: grey">Optional.</small>
+      </p>
+    
+      <p>
+        <label for="id_last_name">Last name:</label><br>
+        <input name="last_name" maxlength="30" id="id_last_name" type="text">
+        
+          <small style="color: grey">Optional.</small>
+        
+        
+      </p>
+    
+      <p>
+        <label for="id_email">Email:</label><br>
+        <input name="email" maxlength="254" required="" id="id_email" type="email">
+        
+          <small style="color: grey">Required. Inform a valid email address.</small>
+      </p>
+      <p>
+        <label for="id_password1">Password:</label><br>
+        <input name="password1" autocomplete="new-password" required="" id="id_password1" type="password">
+        
+          <small style="color: grey"></small></p><ul><li><small style="color: grey">Your password can’t be too similar to your other personal information.</small></li><li><small style="color: grey">Your password must contain at least 8 characters.</small></li><li><small style="color: grey">Your password can’t be a commonly used password.</small></li><li><small style="color: grey">Your password can’t be entirely numeric.</small></li></ul>
+      <p></p>
+      <p>
+        <label for="id_password2">Password confirmation:</label><br>
+        <input name="password2" autocomplete="new-password" required="" id="id_password2" type="password">
+        
+          <small style="color: grey">Enter the same password as before, for verification.</small>
+      </p>
+    <button type="submit" id="formdata">Sign up</button>
+  </form>
+<script type="text/javascript">
+    $('#formdata').click( function(event) {
+        event.preventDefault();
+        var data = {};
+        data.id_username = $('#id_username').val();
+        data.id_first_name = $('#id_first_name').val();
+        data.id_last_name = $('#id_last_name').val();
+        data.id_email = $('#id_email').val();
+        data.password1 = $('#id_password1').val();
+        data.password2 = $('#id_password2').val();
+        $.ajax({
+                url : "http://localhost:8000/signup",
+                type : 'POST',
+                dataType: "json",
+                data: JSON.stringify(data),
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                success : function (data) {
+                        console.log(data);
+                        },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("some error " + String(errorThrown) + String(textStatus) + String(XMLHttpRequest.responseText));
+                        }
+                    });
+                });
+</script>
+</body>
+</html>
