@@ -6,7 +6,7 @@ class ContactForm(forms.Form):
     name = forms.CharField(required=True)
     surname = forms.CharField(required=True)
     email = forms.EmailField(required=True)
-    phone = forms.RegexField(regex=r'^\+?1?\d{9,15}$')
+    phone = forms.RegexField(regex=r'^\+?1?\d{9,15}$') # Only phone format allowed
     subject = forms.CharField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
 

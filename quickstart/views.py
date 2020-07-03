@@ -74,7 +74,7 @@ def contactView(request):
             message = form.cleaned_data['message']
             mess= "Email: " +from_email + " sent you message."+ "\n\n Name: "+ name + "\n\n Surname: "+ surname + "\n\n Subject: " + subject + "\n\n Message: " + message + "\n\n Phone: " +phone
             try:
-                send_mail(subject, mess, from_email, ['your_destination_mail'])
+                send_mail(subject, mess, from_email, ['your_destination_mail']) # Sends mail . 
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('success')
@@ -91,20 +91,20 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = False
             user.is_staff=True 
-            user.save()
+            user.save() # Saves User
             current_site = get_current_site(request)
             subject = 'Activate Your Account'
-            message = render_to_string('account_activation_email.html', {
+            message = render_to_string('account_activation_email.html', { # custom html email. You can change from template.
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject, message)
-            my_group = Group.objects.get(name='User') 
+            my_group = Group.objects.get(name='User') # Adds normal user role
             my_group.user_set.add(user)
             try:
-                send_mail(subject, "message", "sender_email", ['destination_mail'],html_message=message)
+                send_mail(subject, "message", "sender_email", ['destination_mail'],html_message=message) # Sends mail . Check settings.py for details.
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
 

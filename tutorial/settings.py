@@ -64,7 +64,7 @@ MIDDLEWARE = [
 ]
 
 # List of Languages
-
+# Multilanguage
 LANGUAGES = (
     ('en', _('English')),
     ('az-az', _('Azerbaijan')),

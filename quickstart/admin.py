@@ -10,12 +10,12 @@ class NewsFilter(admin.ModelAdmin):
 class FaqsFilter(admin.ModelAdmin):
     list_display = ('question','date_created','date_modified')
 
-
+# Adding models to Admin panel
 admin.site.register(News,NewsFilter)
 admin.site.register(Faq,FaqsFilter)
 admin.site.register(Contact)
 
 admin.site.site_header = "Task Admin Panel"
 
-moderator_group, created = Group.objects.get_or_create(name='Moderator')
-user_group, created = Group.objects.get_or_create(name='User')
+moderator_group, created = Group.objects.get_or_create(name='Moderator') # Creates Moderator 
+user_group, created = Group.objects.get_or_create(name='User') #Creates User
