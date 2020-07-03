@@ -3,6 +3,8 @@
  <head>
    <title>students api</title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
  </head>
 <body>
 <h2>Sign up</h2>
@@ -54,18 +56,55 @@
 <script type="text/javascript">
     $('#formdata').click( function(event) {
         event.preventDefault();
-        var data = {};
-        data.id_username = $('#id_username').val();
-        data.id_first_name = $('#id_first_name').val();
-        data.id_last_name = $('#id_last_name').val();
-        data.id_email = $('#id_email').val();
-        data.password1 = $('#id_password1').val();
-        data.password2 = $('#id_password2').val();
+        id_username = $('#id_username').val();
+        id_first_name = $('#id_first_name').val();
+        id_last_name = $('#id_last_name').val();
+        id_email = $('#id_email').val();
+        id_password1 = $('#id_password1').val();
+        id_password2 = $('#id_password2').val();
+
+        var data = {
+            username: id_username,
+            first_name: id_first_name,
+            last_name: id_last_name,
+            email: id_email,
+            password1: id_password1,
+            password2: id_password2 
+        };
+        // id_username = $('#id_username').val();
+        // id_first_name = $('#id_first_name').val();
+        // id_last_name = $('#id_last_name').val();
+        // id_email = $('#id_email').val();
+        // password1 = $('#id_password1').val();
+        // password2 = $('#id_password2').val();
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            }
+        });
+
         $.ajax({
                 url : "http://localhost:8000/signup",
                 type : 'POST',
-                dataType: "json",
-                data: JSON.stringify(data),
+                data: data,
                 csrfmiddlewaretoken: "{{ csrf_token }}",
                 headers: {
                 'Accept': 'application/json',
